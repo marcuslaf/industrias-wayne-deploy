@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indústrias Wayne - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B21B6'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z'/%3E%3C/svg%3E">
+</head>
+<body>
+    <header>
+        <h1>Indústrias Wayne</h1>
+    </header>
+    <nav>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="resources.html">Recursos</a>
+        <button id="logoutButton" class="logout-button">Sair</button>
+    </nav>
+    <main>
+        <div class="container">
+            <h2>Dashboard de Operações e Segurança</h2>
+            <p style="color: var(--color-text-medium); text-align: center; margin-bottom: var(--spacing-lg);">Visão geral do status de segurança e recursos da Wayne Enterprises.</p>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Status de Acesso</h3>
+                    <p>Tentativas de Login: <span id="loginAttempts">Carregando...</span></p>
+                    <p>Acessos Autorizados: <span id="authorizedAccesses">Carregando...</span></p>
+                    <p>Acessos Negados: <span id="deniedAccesses">Carregando...</span></p>
+                </div>
+                <div class="card">
+                    <h3>Recursos em Uso</h3>
+                    <p>Equipamentos em Uso: <span id="equipmentInUse">Carregando...</span></p>
+                    <p>Veículos em Operação: <span id="vehiclesInUse">Carregando...</span></p>
+                    <p>Dispositivos de Segurança Ativos: <span id="securityDevicesActive">Carregando...</span></p>
+                </div>
+                <div class="card">
+                    <h3>Atividade Recente</h3>
+                    <ul id="recentActivities">
+                        <li>Carregando atividades...</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Próximas Manutenções</h3>
+                    <ul id="upcomingMaintenance">
+                        <li>Carregando manutenções...</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="dashboardMessage" class="message hidden" role="alert" aria-live="polite"></div>
+        </div>
+    </main>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script> </body>
+</html>

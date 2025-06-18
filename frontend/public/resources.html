@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indústrias Wayne - Gestão de Recursos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B21B6'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z'/%3E%3C/svg%3E">
+</head>
+<body>
+    <header>
+        <h1>Indústrias Wayne</h1>
+    </header>
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="resources.html" class="active">Recursos</a>
+        <button id="logoutButton" class="logout-button">Sair</button>
+    </nav>
+    <main>
+        <div class="container">
+            <h2>Gestão de Recursos</h2>
+            <p style="color: var(--color-text-medium); text-align: center; margin-bottom: var(--spacing-lg);">Gerencie equipamentos, veículos e dispositivos de segurança da Wayne Enterprises.</p>
+
+            <h3>Adicionar/Editar Recurso</h3>
+            <form id="resourceForm">
+                <input type="hidden" id="resourceId">
+                
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" required placeholder="Ex: Bat-computador, Batmovel, Câmera de Segurança">
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Tipo:</label>
+                    <select id="type" required>
+                        <option value="">Selecione o tipo</option>
+                        <option value="equipamento">Equipamento</option>
+                        <option value="veiculo">Veículo</option>
+                        <option value="dispositivo_seguranca">Dispositivo de Segurança</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="serial_number">Número de Série (opcional):</label>
+                    <input type="text" id="serial_number" placeholder="Ex: BC-001-ALPHA, CAM-T2K-005">
+                </div>
+
+                <div class="form-group">
+                    <label for="plate">Placa (opcional, para veículos):</label>
+                    <input type="text" id="plate" placeholder="Ex: GOTHAM-001">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Localização:</label>
+                    <input type="text" id="location" required placeholder="Ex: Batcaverna, Hangar B, Entrada Principal">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" required>
+                        <option value="">Selecione o status</option>
+                        <option value="disponivel">Disponível</option>
+                        <option value="em_uso">Em Uso</option>
+                        <option value="em_manutencao">Em Manutenção</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="acquisition_date">Data de Aquisição:</label>
+                    <input type="date" id="acquisition_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_maintenance_date">Última Manutenção (opcional):</label>
+                    <input type="date" id="last_maintenance_date">
+                </div>
+
+                <button type="submit" id="saveResourceButton">Adicionar Recurso</button>
+            </form>
+            <div id="resourceMessage" class="message hidden" role="alert" aria-live="polite"></div>
+
+            <h3>Recursos Atuais</h3>
+            <table id="resourceTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Status</th>
+                        <th>Localização</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="5" style="text-align: center;">Carregando recursos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script> </body>
+</html>
