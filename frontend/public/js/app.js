@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         try {
-            const response = await fetch('http://localhost:5000/api/resources', {
+            const response = await fetch('https://industrias-wayne-api.onrender.com/api/resources', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resourceTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Carregando recursos...</td></tr>'; // Mensagem de carregamento
 
         try {
-            const response = await fetch('http://localhost:5000/api/resources', {
+            const response = await fetch('https://industrias-wayne-api.onrender.com/api/resources', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const method = resourceId ? 'PUT' : 'POST';
-        const url = resourceId ? `http://localhost:5000/api/resources/${resourceId}` : 'http://localhost:5000/api/resources';
+        const url = resourceId ? `https://industrias-wayne-api.onrender.com/api/resources/${resourceId}` : 'https://industrias-wayne-api.onrender.com/api/resources';
 
         try {
             const response = await fetch(url, {
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
+            const response = await fetch(`https://industrias-wayne-api.onrender.com/api/resources/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
