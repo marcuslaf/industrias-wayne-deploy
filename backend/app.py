@@ -9,8 +9,10 @@ app = Flask(__name__)
 app.config.from_object(Config)
 CORS(app) 
 
-init_db(app) 
+init_db(app)
 
+with app.app_context():
+    db.create_all()
 
 @app.cli.command("create-initial-users")
 def create_initial_users():
