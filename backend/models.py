@@ -14,7 +14,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.Enum('funcionario', 'gerente', 'admin_seguranca'), nullable=False)
+    role = db.Column(db.Enum('funcionario', 'gerente', 'admin_seguranca', name='user_role'), nullable=False)
     nome = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True)
 
@@ -28,11 +28,11 @@ class Resource(db.Model):
     __tablename__ = 'resources'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    type = db.Column(db.Enum('equipamento', 'veiculo', 'dispositivo_seguranca'), nullable=False)
+    type = db.Column(db.Enum('equipamento', 'veiculo', 'dispositivo_seguranca', name='resource_type'), nullable=False)
     serial_number = db.Column(db.String(255), unique=True)
     plate = db.Column(db.String(255), unique=True)
     location = db.Column(db.String(255), nullable=False)
-    status = db.Column(db.Enum('disponivel', 'em_uso', 'em_manutencao'), nullable=False)
+    status = db.Column(db.Enum('disponivel', 'em_uso', 'em_manutencao', name='resource_status'), nullable=False)
     acquisition_date = db.Column(db.Date, nullable=False)
     last_maintenance_date = db.Column(db.Date)
 
@@ -55,7 +55,7 @@ class AccessLog(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     access_area = db.Column(db.String(255))
     access_time = db.Column(db.DateTime, default=db.func.current_timestamp())
-    status = db.Column(db.Enum('sucesso', 'falha'))
+    status = db.Column(db.Enum('sucesso', 'falha', name='access_status'))
     ip_address = db.Column(db.String(45))
 
     user = db.relationship('User', backref='access_logs')
