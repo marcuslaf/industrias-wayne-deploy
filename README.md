@@ -1,183 +1,92 @@
-## Sistema de Gerenciamento de Recursos e Usuários - Indústrias Wayne
+# Indústrias Wayne — Sistema de Gerenciamento
 
----
+![Python](https://img.shields.io/badge/Python-3.9+-blue)
+![Flask](https://img.shields.io/badge/Flask-2.3-black)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-orange)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)
+![Vercel](https://img.shields.io/badge/deploy-Vercel-black)
 
-### Visão Geral
+> API RESTful full stack para gerenciamento de recursos, usuários e controle de acesso — inspirada no universo das Indústrias Wayne.
 
-```
+## Stack
 
-Este é um sistema completo de gerenciamento de recursos e usuários desenvolvido para a Indústrias Wayne, composto por:
+| Camada | Tecnologia |
+|--------|-----------|
+| Backend | Flask (Python) com JWT |
+| Frontend | HTML, CSS, JavaScript puro |
+| Banco | MySQL / MariaDB |
+| Deploy | Vercel (backend serverless) |
 
-Backend: API RESTful em Flask (Python)
-Frontend: Interface em JavaScript puro (HTML, CSS)
-Banco de Dados: MySQL/MariaDB
+## Funcionalidades
 
-```
+- Autenticação JWT com 3 perfis (Admin, Gerente, Funcionário)
+- CRUD de recursos (equipamentos, veículos, dispositivos)
+- Dashboard com visão geral do inventário
+- Logs de acesso e controle por perfil
+- Interface responsiva
 
----
+## Rotas da API
 
-#### Pré-requisitos
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/api/login` | Autenticação |
+| GET | `/api/users` | Listar usuários (admin) |
+| GET | `/api/resources` | Listar recursos |
+| POST | `/api/resources` | Criar recurso |
+| PUT | `/api/resources/<id>` | Atualizar recurso |
+| DELETE | `/api/resources/<id>` | Remover recurso |
+| GET | `/api/access-logs` | Logs de acesso |
 
-```
+## Como rodar localmente
 
-Antes de começar, certifique-se de ter instalado:
-Python 3.9+
-Git
-XAMPP (com MySQL/MariaDB ativo)
-MySQL Workbench (opcional)
+```bash
+# 1. Clone
+git clone https://github.com/marcuslaf/industrias-wayne-deploy.git
+cd industrias-wayne-deploy
 
-```
-
----
-
-#### Configuração Rápida
-#### 1 Clonar o repositório
-
-```
-bash 
-
-git clone <URL_DO_REPOSITORIO>
-cd industrias_wayne
-
-```
-
----
-
-#### 2 Configurar o Backend
-
-```
-
-bash
-
+# 2. Backend
 cd backend
 python -m venv myenv
-# Ativar o ambiente virtual:
-# Windows: .\myenv\Scripts\activate
-# Linux/macOS: source myenv/bin/activate
+source myenv/bin/activate  # Linux/macOS
+# .\myenv\Scripts\activate  # Windows
 pip install -r requirements.txt
 
-```
+# 3. Configure .env (veja .env.example)
+cp .env.example .env
 
-#### Crie um arquivo .env na pasta backend com o conteúdo:
+# 4. Banco de dados
+# Execute industrias_wayne.sql no MySQL Workbench ou XAMPP
 
-
-```
-
-env
-MYSQL_HOST=localhost
-MYSQL_USER=root
-MYSQL_PASSWORD=
-MYSQL_DB=industrias_wayne
-JWT_SECRET_KEY=sua_chave_secreta_aleatoria
-
-```
-
-#### 3. Configurar o Banco de Dados
-
-```
-Inicie o MySQL no XAMPP
-Execute o script database.sql no MySQL Workbench
-Crie os usuários iniciais:
-
-```
-
-```
-
-bash
-python -m flask create-initial-users
-
-```
-
-#### 4. Iniciar o servidor
-
-```
-
-bash
+# 5. Inicie
 python app.py
 
+# 6. Frontend
+# Abra frontend/public/index.html no navegador
 ```
 
-#### 5. Acessar o Frontend
+## Estrutura
 
 ```
-
-Abra o arquivo frontend/index.html no navegador.
-
-Credenciais Padrão
-
-Perfil	            Usuário	        Senha
-
-Administrador	    admin	        admin123
-Gerente 	        gerente	        gerente123
-Funcionário 	    funcionario	    funcionario123
-
-```
-
-#### Estrutura do Projeto
-
-```
-industrias_wayne/
+industrias-wayne-deploy/
 ├── backend/
-│   ├── app.py                # Aplicação principal
-│   ├── models.py             # Modelos de dados
-│   ├── routes.py             # Rotas da API
-│   ├── auth.py               # Autenticação
-│   └── requirements.txt      # Dependências
-├── frontend/
-│   ├── public/
-│   │   ├── css/              # Estilos
-│   │   ├── js/               # Lógica JavaScript
-│   │   └── *.html            # Páginas
-└── database.sql              # Script do banco
-
+│   ├── app.py            # Aplicação principal
+│   ├── config.py         # Configurações
+│   ├── models.py         # Modelos SQLAlchemy
+│   ├── routes.py         # Rotas da API
+│   ├── auth.py           # Autenticação JWT
+│   └── requirements.txt
+├── frontend/public/
+│   ├── index.html        # Login
+│   ├── dashboard.html    # Dashboard
+│   └── resources.html    # Gestão de recursos
+├── industrias_wayne.sql  # Script do banco
+└── README.md
 ```
 
----
+## Credenciais de teste
 
-#### Solução de Problemas Comuns
-
-```
-
-Erro de conexão com o banco:
-
-Verifique se o MySQL está rodando no XAMPP
-
-Confira as credenciais no arquivo .env
-
-Módulos Python não encontrados:
-
-Certifique-se que o ambiente virtual está ativado
-
-Execute pip install -r requirements.txt novamente
-
-Problemas de autenticação:
-
-Recrie os usuários com python -m flask create-initial-users
-
-Verifique se o JWT_SECRET_KEY no .env está configurado
-
-```
-
----
-
-## Agradecimentos especiais ao meus Professores e Monitores
-
----
-
-### Professores
-#### Iago Maciel (HTML e CSS)
-#### Mateus Faustino (JavaScript)
-#### Luan Oliveira (JavaScript, Lógica de Programação e Python)
-#### Diego Sampaio (Python)
----
-
-### Monitores
-#### Esron Linhares
-#### Carlos Franch
-#### Elisson Victor
-#### Lucas Souza
-#### Maria Beatriz
-
----
-
-##### Graças a Deus e essas pessoas maravilhosas, meu aprendizado na Infinity School Fortaleza foi a esperiência mais proveitosa possível. Gratidão a todos vocês!
+| Perfil | Usuário | Senha |
+|--------|---------|-------|
+| Administrador | admin | admin123 |
+| Gerente | gerente | gerente123 |
+| Funcionário | funcionario | funcionario123 |
