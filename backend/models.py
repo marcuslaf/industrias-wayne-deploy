@@ -1,7 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-from config import Config
 import bcrypt
+from config import Config
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 

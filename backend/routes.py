@@ -1,9 +1,9 @@
-from flask import Blueprint, request, jsonify, current_app
-from models import db, User, Resource, AccessLog
-import bcrypt
+from datetime import UTC, datetime, timedelta
+
 import jwt
-from datetime import datetime, timedelta
 from auth import token_required
+from flask import Blueprint, current_app, jsonify, request
+from models import Resource, User, db
 from sqlalchemy.exc import IntegrityError
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
@@ -24,7 +24,7 @@ def login():
 
     try:
         token = jwt.encode(
-            {'id': user.id, 'username': user.username, 'role': user.role, 'exp': datetime.utcnow() + timedelta(hours=1)},
+            {'id': user.id, 'username': user.username, 'role': user.role, 'exp': datetime.now(UTC) + timedelta(hours=1)},
             current_app.config['JWT_SECRET_KEY'],
             algorithm="HS256"
         )
@@ -32,7 +32,7 @@ def login():
             'token': token,
             'user': {'id': user.id, 'username': user.username, 'role': user.role, 'nome': user.nome}
         }), 200
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         current_app.logger.error(f"Erro ao gerar token JWT para {username}: {e}")
         return jsonify({'message': 'Erro interno ao gerar token de autenticação.'}), 500
 
@@ -51,7 +51,7 @@ def get_users():
                 'email': user.email
             })
         return jsonify(output), 200
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         current_app.logger.error(f"Erro ao buscar usuários: {e}")
         return jsonify({'message': 'Erro ao buscar usuários.'}), 500
 
@@ -86,10 +86,10 @@ def create_user():
         db.session.rollback()
         current_app.logger.error(f"Erro de integridade ao criar usuário {username}: {e}")
         return jsonify({'message': 'Erro de dados duplicados (usuário ou email já existe).'}), 409
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         db.session.rollback()
         current_app.logger.error(f"Erro inesperado ao criar usuário {username}: {e}")
-        return jsonify({'message': f'Erro ao criar usuário: {str(e)}'}), 500
+        return jsonify({'message': f'Erro ao criar usuário: {e!s}'}), 500
 
 @api_bp.route('/users/<int:user_id>', methods=['DELETE'])
 @token_required(roles='admin_seguranca')
@@ -105,10 +105,10 @@ def delete_user(user_id):
         db.session.delete(user)
         db.session.commit()
         return jsonify({'message': 'Usuário deletado com sucesso!'}), 200
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         db.session.rollback()
         current_app.logger.error(f"Erro ao deletar usuário {user_id}: {e}")
-        return jsonify({'message': f'Erro ao deletar usuário: {str(e)}'}), 500
+        return jsonify({'message': f'Erro ao deletar usuário: {e!s}'}), 500
 
 @api_bp.route('/resources', methods=['GET'])
 @token_required(roles=['admin_seguranca', 'gerente', 'funcionario'])
@@ -117,7 +117,7 @@ def get_resources():
         resources = Resource.query.all()
         output = [resource.to_dict() for resource in resources]
         return jsonify(output), 200
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         current_app.logger.error(f"Erro ao buscar recursos: {e}")
         return jsonify({'message': 'Erro ao buscar recursos.'}), 500
 
@@ -171,10 +171,10 @@ def create_resource():
         db.session.rollback()
         current_app.logger.error(f"Erro de integridade ao criar recurso: {e}")
         return jsonify({'message': 'Erro de dados duplicados (número de série ou placa já existe).'}), 409
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         db.session.rollback()
         current_app.logger.error(f"Erro inesperado ao criar recurso: {e}")
-        return jsonify({'message': f'Erro ao criar recurso: {str(e)}'}), 500
+        return jsonify({'message': f'Erro ao criar recurso: {e!s}'}), 500
 
 @api_bp.route('/resources/<int:resource_id>', methods=['PUT'])
 @token_required(roles=['admin_seguranca', 'gerente'])
@@ -223,10 +223,10 @@ def update_resource(resource_id):
         db.session.rollback()
         current_app.logger.error(f"Erro de integridade ao atualizar recurso {resource_id}: {e}")
         return jsonify({'message': 'Erro de dados duplicados (número de série ou placa já existe).'}), 409
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         db.session.rollback()
         current_app.logger.error(f"Erro inesperado ao atualizar recurso {resource_id}: {e}")
-        return jsonify({'message': f'Erro ao atualizar recurso: {str(e)}'}), 500
+        return jsonify({'message': f'Erro ao atualizar recurso: {e!s}'}), 500
 
 @api_bp.route('/resources/<int:resource_id>', methods=['DELETE'])
 @token_required(roles='admin_seguranca')
@@ -239,7 +239,7 @@ def delete_resource(resource_id):
         db.session.delete(resource)
         db.session.commit()
         return jsonify({'message': 'Recurso deletado com sucesso!'}), 200
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
         db.session.rollback()
         current_app.logger.error(f"Erro ao deletar recurso {resource_id}: {e}")
-        return jsonify({'message': f'Erro ao deletar recurso: {str(e)}'}), 500
+        return jsonify({'message': f'Erro ao deletar recurso: {e!s}'}), 500

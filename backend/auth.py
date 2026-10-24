@@ -1,8 +1,9 @@
-import jwt
-from flask import request, jsonify, current_app
 from functools import wraps
+
+import jwt
+from flask import current_app, jsonify, request
 from models import User, db
-from datetime import datetime
+
 
 def token_required(roles=None):
     if roles is None:
@@ -35,9 +36,9 @@ def token_required(roles=None):
                 return jsonify({'message': 'Token expirado. Por favor, faça login novamente.'}), 401
             except jwt.InvalidTokenError:
                 return jsonify({'message': 'Token inválido. Acesso não autorizado.'}), 400
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 - catch-all intencional: mantém resposta JSON 500 em vez de erro HTML do Flask
                 current_app.logger.error(f"Erro inesperado na validação do token: {e}")
-                return jsonify({'message': f'Erro interno do servidor durante a autenticação: {str(e)}'}), 500
+                return jsonify({'message': f'Erro interno do servidor durante a autenticação: {e!s}'}), 500
 
             return fn(*args, **kwargs)
         return decorated
